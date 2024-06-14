@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+
+
+        * {
+            margin: 0;
+            list-style: none;
+        }
+
+        .modal {
+            max-width: 400px;
+            display: none;
+        }
+
+        .my-modal *,
+        .my-modal-x * {
+            font-family: 'vazir';
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: 0;
+            border-radius: 5px;
+        }
+
+        .close-modal {
+            background-color: #c41818;
+            color: #ffffff;
+        }
+
+        .acccept {
+            background-color: #3172ff;
+            color: #ffffff;
+        }
+
+        .act {
+            background-color: #3f3f3f !important;
+        }
+
+        .indicator-wrapper,
+        .indicator-wrapper2 {
+            width: 400px;
+            padding: 30px;
+
+
+
+            background-color: #ffffff;
+
+            color: rgb(117, 117, 117);
+            border: 2px solid #e2e2e2;
+
+            img {
+                width: 80px;
+                height: 80px;
+            }
+
+            font-size: x-large;
+            font-weight: 900;
+
+        }
+
+        ul {
+            padding: 0;
+
+            li {
+                padding: 10px;
+            }
+        }
+
+        .container {
+            background-color: #0a1f4b;
+            color: white;
+
+        }
+
+        .side {
+            background-color: #091a3d;
+        }
+
+        .indicator,
+        .indicator2,
+        .indicator3 {
+            background: linear-gradient(77deg, #ffedbb, #ff9676);
+            padding: 20px;
+            border-radius: 7px;
+
+            z-index: 1;
+        }
+
+        .my-test-indicator ul li {
+
+            z-index: 999999999;
+            position: relative;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <br>
+
+    <button class="w3-btn w3-pink w3-margin w3-round">
+        tooltip
+    </button>
+
+
+    
+    <section class="modal w3-white w3-round w3-padding w3-container">
+        <h3>title</h3>
+        <section class="w3-container w3-border w3-wide w3-margin w3-col m3 fix-area w3-white my-test-indicator"
+            style="width: 300px;">
+            <ul>
+                <li class="item">
+                    <img src="https://static-00.iconduck.com/assets.00/typescript-icon-icon-2048x2048-2rhh1z66.png"
+                        width="30px" height="30px" alt="">
+                    TypeScript
+                </li>
+                <li class="item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" width="30px"
+                        height="30px" alt="">
+                    Javascript
+                </li>
+                <li class="item">
+                    <img src="https://hdpng.com/images/logo-jquery-png--512.png" width="30px" height="30px" alt="">
+                    jQuery
+                </li>
+                <li class="item">
+                    <img src="https://static-00.iconduck.com/assets.00/react-javascript-js-framework-facebook-icon-512x455-jctj7y5w.png"
+                        width="30px" height="30px" alt="">
+                    React
+                </li>
+                <li class="item">
+
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Sass_Logo_Color.svg/1280px-Sass_Logo_Color.svg.png"
+                        width="30px" height="30px" alt="">
+                    Scss
+                </li>
+                <li class="item">
+                    <img src="https://w3schoolsua.github.io/images/w3css_logo.png" width="30px" height="30px" alt="">
+
+                    W3css
+                </li>
+            </ul>
+            <div class="indicator"></div>
+
+        </section>
+
+    </section>
+
+
+    <br>
+
+    <script type="module">
+
+
+        import { EasyJS } from '/components/dist/easyjs.js';
+        EasyJS.debug('alert');
+
+
+        EasyJS.component('modal', {
+            wrapperClass: 'modal',
+            onOpenClass: 'w3-btn',
+        });
+
+
+
+
+
+    </script>
+</body>
+
+</html>
