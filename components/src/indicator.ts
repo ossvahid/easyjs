@@ -10,7 +10,7 @@ interface ComponentSpecialOptions extends ComponentGlobalOptions {
     indicatorAnimationOut: string,
     indicatorAnimationSpeed: string,
     indicatorMovingSpeed: string,
-    hideIndicatorWhenEventTargetIsNotIndicatorChild: boolean,
+    destroyAfterEventEnded: boolean,
     indicatorMove: CallableFunction,
     indicatorStop: CallableFunction,
     indicatorPositionMode: string,
@@ -28,7 +28,7 @@ export class ESJindicator implements ComponentInterface {
         indicatorDefaultHidden: false, // done
         indicatorAnimationIn: '', // done
         indicatorAnimationOut: '', // done
-        hideIndicatorWhenEventTargetIsNotIndicatorChild: false, // done
+        destroyAfterEventEnded: false, // done
         indicatorMove: (indicator: Element, targetItem: Element) => { }, // done
         indicatorStop: (indicator: Element, targetItem: Element) => { }, // done
         indicatorMovingSpeed: '1s', // done
@@ -140,7 +140,7 @@ export class ESJindicator implements ComponentInterface {
         self.options.events?.forEach(eventname => {
 
 
-            if (self.options.hideIndicatorWhenEventTargetIsNotIndicatorChild) {
+            if (self.options.destroyAfterEventEnded) {
                 window.addEventListener(`${eventname}`, function (ew) {
                     if (ew.target === currentItem.closest(`.${self.options.wrapperClass}`)) {
                         (indicator as HTMLElement).style.visibility = 'visible';

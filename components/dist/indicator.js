@@ -7,15 +7,15 @@ export class ESJindicator {
             indicatorDefaultHidden: false, // done
             indicatorAnimationIn: '', // done
             indicatorAnimationOut: '', // done
-            hideIndicatorWhenEventTargetIsNotIndicatorChild: false, // done
+            destroyAfterEventEnded: false, // done
             indicatorMove: (indicator, targetItem) => { }, // done
             indicatorStop: (indicator, targetItem) => { }, // done
             indicatorMovingSpeed: '1s', // done
             indicatorAnimationSpeed: '1s', // done
             indicatorPositionMode: 'absolute', // done
             indicatorRatio: 'center', // done
-            indicatorYmargin: '0', // done
-            indicatorXmargin: 'auto', // done
+            indicatorYmargin: '0px', // done
+            indicatorXmargin: '0px', // done
             cover: true, // done
             eventsMaxSensitivity: false // done
         };
@@ -61,7 +61,7 @@ export class ESJindicator {
         const indicatorXmargin = (self.options.indicatorXmargin === 'auto') ? currentItem.clientWidth + 'px' : self.options.indicatorXmargin;
         const indicatorYmargin = (self.options.indicatorYmargin === 'auto') ? currentItem.clientHeight + 'px' : self.options.indicatorYmargin;
         (_a = self.options.events) === null || _a === void 0 ? void 0 : _a.forEach(eventname => {
-            if (self.options.hideIndicatorWhenEventTargetIsNotIndicatorChild) {
+            if (self.options.destroyAfterEventEnded) {
                 window.addEventListener(`${eventname}`, function (ew) {
                     var _a;
                     if (ew.target === currentItem.closest(`.${self.options.wrapperClass}`)) {
