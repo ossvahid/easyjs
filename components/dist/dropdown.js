@@ -38,11 +38,9 @@ export class ESJdropdown {
             }
             dropdown.style.position = 'absolute';
             dropdown.style.zIndex = '9999999999';
-            window.onload = function () {
-                self.changePosition(dropdown);
-            };
         });
-        window.onscroll = function () {
+        window.onscroll = Handle;
+        function Handle() {
             var _a;
             (_a = self.options.events) === null || _a === void 0 ? void 0 : _a.forEach(event => {
                 document.querySelectorAll(`.${self.options.handlerClass}`).forEach(handler => {
@@ -50,7 +48,8 @@ export class ESJdropdown {
                     self.changePosition(handler.nextElementSibling);
                 });
             });
-        };
+        }
+        Handle();
     }
     ComponentUi(handler, event) {
         const self = this;

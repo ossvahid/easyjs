@@ -52,13 +52,12 @@ export class ESJdropdown implements ComponentInterface {
 
             (dropdown as HTMLElement).style.position = 'absolute';
             (dropdown as HTMLElement).style.zIndex = '9999999999';
-            window.onload = function () {
-                self.changePosition(dropdown as HTMLElement);
-            }
-
         });
 
-        window.onscroll = function () {
+        window.onscroll = Handle;
+       
+
+        function Handle(){
             self.options.events?.forEach(event => {
                 document.querySelectorAll(`.${self.options.handlerClass}`).forEach(handler => {
                     self.ToggleDropDown(event, handler);
@@ -67,6 +66,7 @@ export class ESJdropdown implements ComponentInterface {
                 });
             });
         }
+        Handle();
     }
     ComponentUi(handler: Element, event: any | Event): void {
         const self = this;
