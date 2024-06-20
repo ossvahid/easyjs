@@ -15,7 +15,7 @@
         .navbar {
             background: white;
             padding: 20px;
-          
+
             bottom: 0;
             left: 0;
             right: 0;
@@ -130,6 +130,11 @@
     </div>
 
 
+    <div>
+        <div>
+            <button>sasa</button>
+        </div>
+    </div>
 
 
 
@@ -160,6 +165,26 @@
         aspernatur ducimus dolores placeat. Aliquam voluptates error commodi rem temporibus amet reprehenderit nisi
         distinctio blanditiis.
     </p>
+    <div class="w3-center navbar">
+        <button style="margin: auto !important;" class="dropdown-handler w3-button w3-round w3-small w3-blue w3-margin">
+            افزودن به سبد خرید
+        </button>
+        <div class="w3-card w3-white w3-padding w3-padding-24 w3-round-medium w3-cell dropdown-data"
+            style="width: 250px;">
+            <img src="https://play-lh.googleusercontent.com/uqq6a-fHayQxsNQkxB9ZZXag8N7Du5mOEKcScr9yltHqx3RKgCdr9VJHKGO2vY_GUe0"
+                class="w3-round-medium" style="width: 100%;" alt="">
+            <div class="w3-padding">
+
+                <p class="w3-center">
+                    خرید امن و مطمعن با واریز بسیار سریع از تیم موجوجم
+                </p>
+
+                <span class="w3-deep-orange w3-hover-opacity w3-padding w3-block w3-round w3-center w3-small">
+                    4500 امتیاز دریافت کنید
+                </span>
+            </div>
+        </div>
+    </div>
     <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. At nobis reiciendis fugiat officia dolorem quae
         aspernatur ducimus dolores placeat. Aliquam voluptates error commodi rem temporibus amet reprehenderit nisi
@@ -188,7 +213,7 @@
     <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. At nobis reiciendis fugiat officia dolorem quae
         aspernatur ducimus dolores placeat. Aliquam voluptates error commodi rem temporibus amet reprehenderit nisi
-        distinctio blanditiis.
+        distinctio blanditiis.-
     </p>
     <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. At nobis reiciendis fugiat officia dolorem quae
@@ -226,11 +251,11 @@
             wrapperClass: 'dropdown-data',
             defaultHidden: true,
             width: '240px',
-            onOpen: (box) => {
-                box.classList.add('w3-black')
+
+            onOpen: (d,h) => {
+               d.style.background = 'red  !important'
             }
         })
-
 
 
 

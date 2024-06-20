@@ -6,6 +6,7 @@ interface ComponentSpecialOptions extends ComponentGlobalOptions {
     position: string,
     defaultHidden: boolean,
     onOpen: CallableFunction,
+    onClose: CallableFunction,
     width: string,
     destroyAfterEventEnded: boolean
 }
@@ -18,10 +19,12 @@ export class ESJdropdown implements ComponentInterface {
         position: 'auto',
         animationIn: 'fadeIn',
         animationOut: 'fadeOut',
+        animationSpeed: '0.5s',
         defaultHidden: true,
         width: 'auto',
         destroyAfterEventEnded: true,
-        onOpen: (dropdown: Element, handler: Element) => { }
+        onOpen: (dropdown: Element, handler: Element) => { },
+        onClose: (dropdown: Element, handler: Element) => { },
     }
     constructor(options: Partial<ComponentSpecialOptions> = {}) {
         this.options = ESJinit.findEndOptions(this.options, options);
@@ -49,88 +52,40 @@ export class ESJdropdown implements ComponentInterface {
 
             (dropdown as HTMLElement).style.position = 'absolute';
             (dropdown as HTMLElement).style.zIndex = '9999999999';
-
             window.onload = function () {
-                self.changePosition(dropdown as HTMLElement, dropdown.previousElementSibling as HTMLElement);
+                self.changePosition(dropdown as HTMLElement);
             }
-            window.onscroll = function () {
-                self.changePosition(dropdown as HTMLElement, dropdown.previousElementSibling as HTMLElement);
-            }
+
         });
 
-        self.options.events?.forEach(event => {
+        window.onscroll = function () {
+            self.options.events?.forEach(event => {
+                document.querySelectorAll(`.${self.options.handlerClass}`).forEach(handler => {
+                    self.ToggleDropDown(event, handler);
 
-
-
-
-
-
-
-
-
-
-
-            document.querySelectorAll(`.${self.options.handlerClass}`).forEach(handler => {
-                handler.addEventListener(`${event}`, function (e) {
-                    self.ComponentUi(e.target as Element, e)
-                })
-
-
-
-                if (self.options.destroyAfterEventEnded) {
-                    window.addEventListener(`${event}`, function (ew) {
-                        const dropdown = handler.nextElementSibling as HTMLElement;
-                        if (ew.target === dropdown || ew.target === handler || dropdown.contains(ew.target as HTMLElement)) {
-                            // ESJinit.initializeAnimation(dropdown, `${self.options.animationIn}`);
-                            dropdown.style.visibility = 'visible';
-                        } else {
-                            // ESJinit.initializeAnimation(dropdown, `${self.options.animationOut}`);
-                            dropdown.style.visibility = 'hidden';
-                        }
-
-                    });
-                }
-
-
-
-
-
-
-
-
-
-
-
-
+                    self.changePosition(handler.nextElementSibling as HTMLElement);
+                });
             });
-
-
-        });
-
-
-
+        }
     }
     ComponentUi(handler: Element, event: any | Event): void {
         const self = this;
         const dropdown = handler.nextElementSibling as HTMLElement;
-        if (self.options.onOpen !== undefined) {
-            self.options.onOpen(dropdown, handler)
-        }
-        dropdown.style.visibility = 'visible';
 
-        ESJinit.initializeAnimation(dropdown, `${self.options.animationIn}`);
-        self.changePosition(dropdown, handler);
+        dropdown.style.visibility = 'visible';
+        self.changePosition(dropdown);
 
     }
 
 
-    private changePosition(dropdown: HTMLElement, handler: Element) {
-        dropdown.style.transition = '0.2s';
+    private changePosition(dropdown: HTMLElement) {
+        dropdown.style.transition = '0s';
+        const handler = dropdown.previousElementSibling as Element;
         const x = handler.getBoundingClientRect().left + window.scrollX;
         if (this.options.position === 'auto') {
             const dropdownRect = dropdown.getBoundingClientRect();
-            const dropdownBottom = dropdownRect.bottom + window.scrollY;
-            const dropdownTop = dropdownRect.top + window.scrollY;
+            const dropdownBottom = dropdownRect.bottom + window.scrollY - 150;
+            const dropdownTop = dropdownRect.top + window.scrollY + 150;
 
 
 
@@ -147,6 +102,44 @@ export class ESJdropdown implements ComponentInterface {
 
 
 
+        }
+    }
+
+
+    private ToggleDropDown(event: string, handler: Element) {
+        const self = this;
+
+        if (self.options.destroyAfterEventEnded) {
+            window.addEventListener(`${event}`, function (ew) {
+                const dropdown = handler.nextElementSibling as HTMLElement;
+                dropdown.style.animationDuration = `${self.options.animationSpeed}`;
+
+                if ((ew.target === dropdown || ew.target === handler || dropdown.contains(ew.target as HTMLElement)) && (!handler.hasAttribute('data-esj-dropdown'))) {
+
+                    ESJinit.initializeAnimation(dropdown, `${self.options.animationIn}`, `${self.options.animationOut}`);
+                    dropdown.onanimationend = function () {
+                        dropdown.style.visibility = 'visible';
+                        handler.setAttribute('data-esj-dropdown', 'true');
+                        if (self.options.onOpen !== undefined) {
+                            self.options.onOpen(dropdown, handler);
+                        }
+                    };
+                    self.ComponentUi(handler, event);
+
+                } else {
+                    if (dropdown.contains(ew.target as HTMLElement)) return;
+
+                    ESJinit.initializeAnimation(dropdown, `${self.options.animationOut}`, `${self.options.animationIn}`);
+                    dropdown.onanimationend = function () {
+                        dropdown.style.visibility = 'hidden';
+                        handler.removeAttribute('data-esj-dropdown');
+                        if (self.options.onClose !== undefined) {
+                            self.options.onClose(dropdown, handler);
+                        }
+                    };
+
+                }
+            });
         }
     }
 }

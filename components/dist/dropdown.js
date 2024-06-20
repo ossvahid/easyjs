@@ -6,10 +6,12 @@ export class ESJdropdown {
             position: 'auto',
             animationIn: 'fadeIn',
             animationOut: 'fadeOut',
+            animationSpeed: '0.5s',
             defaultHidden: true,
             width: 'auto',
             destroyAfterEventEnded: true,
-            onOpen: (dropdown, handler) => { }
+            onOpen: (dropdown, handler) => { },
+            onClose: (dropdown, handler) => { },
         };
         this.options = ESJinit.findEndOptions(this.options, options);
         ESJinit.CheckRequiredOptions([
@@ -19,7 +21,6 @@ export class ESJdropdown {
         this.ComponentRender();
     }
     ComponentRender() {
-        var _a;
         const self = this;
         document.querySelectorAll(`.${self.options.wrapperClass}`).forEach(dropdown => {
             var _a;
@@ -38,50 +39,33 @@ export class ESJdropdown {
             dropdown.style.position = 'absolute';
             dropdown.style.zIndex = '9999999999';
             window.onload = function () {
-                self.changePosition(dropdown, dropdown.previousElementSibling);
-            };
-            window.onscroll = function () {
-                self.changePosition(dropdown, dropdown.previousElementSibling);
+                self.changePosition(dropdown);
             };
         });
-        (_a = self.options.events) === null || _a === void 0 ? void 0 : _a.forEach(event => {
-            document.querySelectorAll(`.${self.options.handlerClass}`).forEach(handler => {
-                handler.addEventListener(`${event}`, function (e) {
-                    self.ComponentUi(e.target, e);
+        window.onscroll = function () {
+            var _a;
+            (_a = self.options.events) === null || _a === void 0 ? void 0 : _a.forEach(event => {
+                document.querySelectorAll(`.${self.options.handlerClass}`).forEach(handler => {
+                    self.ToggleDropDown(event, handler);
+                    self.changePosition(handler.nextElementSibling);
                 });
-                if (self.options.destroyAfterEventEnded) {
-                    window.addEventListener(`${event}`, function (ew) {
-                        const dropdown = handler.nextElementSibling;
-                        if (ew.target === dropdown || ew.target === handler || dropdown.contains(ew.target)) {
-                            // ESJinit.initializeAnimation(dropdown, `${self.options.animationIn}`);
-                            dropdown.style.visibility = 'visible';
-                        }
-                        else {
-                            // ESJinit.initializeAnimation(dropdown, `${self.options.animationOut}`);
-                            dropdown.style.visibility = 'hidden';
-                        }
-                    });
-                }
             });
-        });
+        };
     }
     ComponentUi(handler, event) {
         const self = this;
         const dropdown = handler.nextElementSibling;
-        if (self.options.onOpen !== undefined) {
-            self.options.onOpen(dropdown, handler);
-        }
         dropdown.style.visibility = 'visible';
-        ESJinit.initializeAnimation(dropdown, `${self.options.animationIn}`);
-        self.changePosition(dropdown, handler);
+        self.changePosition(dropdown);
     }
-    changePosition(dropdown, handler) {
-        dropdown.style.transition = '0.2s';
+    changePosition(dropdown) {
+        dropdown.style.transition = '0s';
+        const handler = dropdown.previousElementSibling;
         const x = handler.getBoundingClientRect().left + window.scrollX;
         if (this.options.position === 'auto') {
             const dropdownRect = dropdown.getBoundingClientRect();
-            const dropdownBottom = dropdownRect.bottom + window.scrollY;
-            const dropdownTop = dropdownRect.top + window.scrollY;
+            const dropdownBottom = dropdownRect.bottom + window.scrollY - 150;
+            const dropdownTop = dropdownRect.top + window.scrollY + 150;
             if (dropdownBottom > window.innerHeight + window.scrollY) {
                 const newY = handler.getBoundingClientRect().top - dropdown.clientHeight + window.scrollY;
                 dropdown.style.top = `${newY}px`;
@@ -91,6 +75,38 @@ export class ESJdropdown {
                 dropdown.style.top = `${newY}px`;
             }
             dropdown.style.left = `${x}px`;
+        }
+    }
+    ToggleDropDown(event, handler) {
+        const self = this;
+        if (self.options.destroyAfterEventEnded) {
+            window.addEventListener(`${event}`, function (ew) {
+                const dropdown = handler.nextElementSibling;
+                dropdown.style.animationDuration = `${self.options.animationSpeed}`;
+                if ((ew.target === dropdown || ew.target === handler || dropdown.contains(ew.target)) && (!handler.hasAttribute('data-esj-dropdown'))) {
+                    ESJinit.initializeAnimation(dropdown, `${self.options.animationIn}`, `${self.options.animationOut}`);
+                    dropdown.onanimationend = function () {
+                        dropdown.style.visibility = 'visible';
+                        handler.setAttribute('data-esj-dropdown', 'true');
+                        if (self.options.onOpen !== undefined) {
+                            self.options.onOpen(dropdown, handler);
+                        }
+                    };
+                    self.ComponentUi(handler, event);
+                }
+                else {
+                    if (dropdown.contains(ew.target))
+                        return;
+                    ESJinit.initializeAnimation(dropdown, `${self.options.animationOut}`, `${self.options.animationIn}`);
+                    dropdown.onanimationend = function () {
+                        dropdown.style.visibility = 'hidden';
+                        handler.removeAttribute('data-esj-dropdown');
+                        if (self.options.onClose !== undefined) {
+                            self.options.onClose(dropdown, handler);
+                        }
+                    };
+                }
+            });
         }
     }
 }

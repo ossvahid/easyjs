@@ -29,8 +29,8 @@ export class EasyJS {
 EasyJS._debug = 'console';
 export class ESJinit {
     static initializeAnimation(elm, NEWanimationname, OLDanimationname = '') {
-        elm.classList.remove('animate__animated', 'animate__' + OLDanimationname);
-        elm.classList.add('animate__animated', 'animate__' + NEWanimationname);
+        elm.classList.remove('animate__animated', `animate__${OLDanimationname}`);
+        elm.classList.add('animate__animated', `animate__${NEWanimationname}`);
     }
     static findEndOptions(defaultoptions, useroptions) {
         let endoptions = {};
