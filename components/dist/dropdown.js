@@ -1,5 +1,4 @@
 import { ESJinit } from './index.js';
-
 export class ESJdropdown {
     constructor(options = {}) {
         this.options = {
