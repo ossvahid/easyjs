@@ -14,8 +14,8 @@ export class ESJindicator {
             indicatorAnimationSpeed: '1s', // done
             indicatorPositionMode: 'absolute', // done
             indicatorRatio: 'center', // done
-            indicatorYmargin: '0', // done
-            indicatorXmargin: 'auto', // done
+            indicatorYmargin: '0px', // done
+            indicatorXmargin: '0px', // done
             cover: true, // done
             eventsMaxSensitivity: false // done
         };
