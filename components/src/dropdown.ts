@@ -11,7 +11,6 @@ interface ComponentSpecialOptions extends ComponentGlobalOptions {
     destroyAfterEventEnded: boolean
 }
 
-
 export class ESJdropdown implements ComponentInterface {
 
     options: Partial<ComponentSpecialOptions> = {
@@ -168,5 +167,7 @@ export class ESJdropdown implements ComponentInterface {
                 }
             });
         }
+        
     }
+
 }
