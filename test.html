@@ -313,33 +313,6 @@
         })
 
 
-        EasyJS.component('modal', {
-            handlerClass: 'open-modal',
-            wrapperClass: 'modal',
-            animationIn: 'fadeInDown',
-            animationOut: 'fadeOutUp',
-            onOpen: () => {
-                EasyJS.component('modal', {
-                    handlerClass: 'open-modal2',
-                    wrapperClass: 'modal2',
-                    animationIn: 'fadeInDown',
-                    animationOut: 'fadeOutUp',
-                    onOpen: () => {
-                        setTimeout(function () {
-                            EasyJS.component('modal', {
-
-                                wrapperClass: 'modal2',
-                                animationIn: 'fadeInDown',
-                                animationOut: 'fadeOutUp',
-
-                            })
-                        }, 3000)
-                    }
-                });
-            }
-        });
-
-
 
     </script>
 </body>
