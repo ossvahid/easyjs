@@ -1,7 +1,5 @@
 
 
-
-import { EasyJS } from './easyjs.js';
 import { ComponentGlobalOptions, ComponentInterface, ESJinit } from './index.js';
 
 interface ComponentSpecialOptions extends ComponentGlobalOptions {
@@ -12,7 +10,8 @@ interface ComponentSpecialOptions extends ComponentGlobalOptions {
     animationSpeed: string,
     onAccept: CallableFunction,
     closeAfterAccepted: boolean
-
+    backgroundColor: string,
+    padding: string
 }
 
 export class ESJmodal implements ComponentInterface {
@@ -26,8 +25,12 @@ export class ESJmodal implements ComponentInterface {
         onClose: () => { },
         onAccept: () => { },
         position: 'center',
-        closeAfterAccepted: true
+        closeAfterAccepted: true,
 
+        // ---------------------> new 
+        backgroundColor: 'rgba(0, 0, 0, 0.85)',
+        padding: '20px',
+        
     };
 
     constructor(options: Partial<ComponentSpecialOptions> = {}) {
@@ -90,7 +93,7 @@ export class ESJmodal implements ComponentInterface {
             position = 'align-items: flex-end; justify-content: flex-end;';
         }
 
-        modal.style = `position: fixed; top: 0; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.7); display: flex; z-index: ${9999 + document.querySelectorAll('section').length}; padding: 20px; ${position}`;
+        modal.style = `position: fixed; top: 0; bottom: 0; left: 0; right: 0; background: ${self.options.backgroundColor}; display: flex; z-index: ${9999 + document.querySelectorAll('section').length}; padding: ${self.options.padding}; ${position}`;
 
         let popup = document.querySelector(`.${self.options.wrapperClass}`) as any;
         popup = popup.cloneNode(true);

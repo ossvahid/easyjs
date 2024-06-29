@@ -10,7 +10,10 @@ export class ESJmodal {
             onClose: () => { },
             onAccept: () => { },
             position: 'center',
-            closeAfterAccepted: true
+            closeAfterAccepted: true,
+            // ---------------------> new 
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            padding: '20px',
         };
         this.options = ESJinit.findEndOptions(this.options, options);
         ESJinit.CheckRequiredOptions([
@@ -60,7 +63,7 @@ export class ESJmodal {
         else if (self.options.position === 'bottom-right') {
             position = 'align-items: flex-end; justify-content: flex-end;';
         }
-        modal.style = `position: fixed; top: 0; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.7); display: flex; z-index: ${9999 + document.querySelectorAll('section').length}; padding: 20px; ${position}`;
+        modal.style = `position: fixed; top: 0; bottom: 0; left: 0; right: 0; background: ${self.options.backgroundColor}; display: flex; z-index: ${9999 + document.querySelectorAll('section').length}; padding: ${self.options.padding}; ${position}`;
         let popup = document.querySelector(`.${self.options.wrapperClass}`);
         popup = popup.cloneNode(true);
         popup.style = `display: block; animation-duration: ${self.options.animationSpeed};`;
